@@ -1,0 +1,17 @@
+<meta>
+    <info author="WADADADANG" version="1.0" name="Panel Control System" description="description" type="script"/>
+
+    <script src="client.lua" type="client" cache="false" validate="true"/>
+
+    <export function="addPanel" type="client" />
+    <export function="bringToFront" type="client" />
+    <export function="bringToFrontBySystemName" type="client" />
+    <export function="getTopPanel" type="client" />
+    <export function="removePanel" type="client" />
+    <export function="removePanelBySystemName" type="client" />
+    <export function="removePanelByResourceName" type="client" />
+    <export function="changePositionBySystemName" type="client" />
+    <export function="isBringToFrontBySystemName" type="client" />
+    <export function="getPanelAtCursorPosition" type="client" />
+
+</meta>
