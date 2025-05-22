@@ -1,10 +1,17 @@
 PanelControl = {}
 PanelControl.panels = {}
 
-function addPanel ( panel, resourceName, systemName, eventName, ... )
+function addPanel ( panel, resourceName, systemName, eventRefresh, ... )
     panel.resourceName = resourceName
     panel.systemName = systemName
-    panel.eventName = eventName
+    if eventRefresh then
+        local typeEvent = type( eventRefresh )
+        if typeEvent == "string" then
+            panel.eventName = eventRefresh
+        elseif typeEvent == "function" then
+            panel.funcName = eventRefresh
+        end
+    end
     panel.argument = { ... }
     table.insert(PanelControl.panels, panel )
     panel.index = #PanelControl.panels -- เก็บ index ของหน้าต่างในตาราง
@@ -123,8 +130,12 @@ function onClientKey ( button, press )
         local clickedPanel = getTopPanelClicked( )
         if clickedPanel then
             bringToFront ( clickedPanel )
-            triggerEvent( clickedPanel.eventName, getLocalPlayer(  ), unpack( clickedPanel.argument ) )
-            triggerEvent( "onClientControlSystemClickPanel", getLocalPlayer(  ), clickedPanel)
+            if clickedPanel.eventName then
+                triggerEvent( clickedPanel.eventName, getLocalPlayer(  ), unpack( clickedPanel.argument ) )
+            elseif clickedPanel.funcName then
+                clickedPanel.funcName( unpack( clickedPanel.argument ) )
+            end
+            triggerEvent( "onClientControlSystemClickPanel", getLocalPlayer(  ), clickedPanel )
         end
     end
 end
